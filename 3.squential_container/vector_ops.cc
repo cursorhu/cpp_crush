@@ -11,6 +11,7 @@ int main(){
     if(ivec.empty())
         cout << "empty vector!" << endl;
 
+    // size_type: Type large enough to hold size of largest object of this type
     for(vector<int>::size_type i = 0; i != 10; ++i){
         //Error using: index can only be used for elements that already exist!
         //ivec[i] = i; //no element to index!

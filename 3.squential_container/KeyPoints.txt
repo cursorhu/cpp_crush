@@ -1,0 +1,64 @@
+1.To define a container object, we must include its associated header file:
+#include <vector>
+#include <list>
+#include <deque>
+
+2.Each of the containers is a class template, so definition like this:
+vector<string> svec; // empty vector that can hold strings
+list<int> ilist; // empty list that can hold ints
+deque<Sales_item> items; // empty deque that holds Sales_items
+
+3.Empty container have no elements! we can initialize a container by:
+    3.1 initialize a new container with size and value.
+    vector<int> ivec(10, 1); // ok: each element initialized to 1
+    3.1 initialize a new container as a copy of an existing container of the same type:
+    vector<int> ivec2(ivec); // ok: ivec is vector<int>
+    3.2 Initializing by push_back a Range of Elements
+    list<int> ilist;
+    for (size_t ix = 0; ix != 4; ++ix)
+        ilist.push_back(ix);
+
+4.Operations of squential container
+    c.push_back(t)  //Adds element with value t to the end of c . Returns void 
+    c.insert(p,t)   //Inserts element with value t before the element referred to by iterator p . 
+                    //Returns an iterator referring to the element that was added
+    c.size()        //Returns the number of elements in c . Return type is c::size_type 
+    c.empty()       //Returns a bool that indicates whether size is 0 or not.
+    c.resize(n)     //Resize c so that it has n elements. If N < c.size(), the excess elements are discarded
+    c.pop_back()    //Removes the last element in c. Returns void.
+    c.erase(p)      //Removes element referred to by the iterator p. Usually use find() to get the target element's iterator
+
+5. Access Elements in a Sequential Container
+    c.back()    //Returns a reference to the last element in c. Undefined if c is empty.
+    c.front()   //Returns a reference to the first element in c. Undefined if c is empty.
+    c[n]        //Valid only for vector and deque. Returns a reference to the element indexed by n .
+
+6.vector capacity increasement follows a strategy of doubling the current capacity each time. 
+    It is important to understand the difference between capacity and size: 
+    * size is the number of elements in the vector; 
+    * capacity is how many it could hold before new space must be allocated.
+
+7.Deciding Which Container to Use, must consider:
+    * The costs to add or delete elements from the middle of the container
+    * The costs to perform nonsequential access to elements of the container
+    In general, unless there is a good reason to prefer another container, vector is usually the right one to use.
+
+8.How Insertion Affects Choice of Container:
+8.1. list
+    A list represents noncontiguous memory and allows for both forward and backward traversal one element at a time. 
+    It is efficient to insert or erase an element at any point.
+    Random access is not supported.
+8.2. vector
+    Support fast random access to any element.
+    Inefficient to insert or erase elements in the middle of vector.
+    Inserting/Removing any element of vector(except front and end), cause every element after it must be moved.  
+    Otherwise, there'd be a hole in the vector.
+8.3. deque: queue implemented by list.
+    A deque offers some properties of both list and vector :
+    Like vector , it is inefficient to insert or erase elements in the middle of the deque .
+    Unlike vector , a deque offers efficient insert and erase at the front as well as at the back.
+    Unlike list and like vector , a deque supports fast random access to any element.
+
+9.How Access to the Elements Affects Choice of Container
+    Random access in a vector can beefficient because each access is to a fixed offset from the beginning of the vector . 
+    It is much slower to jump around in a list . the only way to move between the elements of a list is to sequentially follow the pointers.
