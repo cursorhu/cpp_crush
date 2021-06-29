@@ -41,6 +41,35 @@ void string_operation(string &s1, string &s2){
         s1[i] = toupper(s1[i]); //here if: cout << s[i] , it output ASCII of each character
     }
     cout << s1 << endl;
+
+    /* string-only operations */
+    string ss1("hello world");
+    // return substring of 5 characters starting at position 6 (0 based)
+    string ss2 = ss1.substr(6, 5); // s2 = world
+    // return substring from position 6 to the end of s
+    string ss3 = ss1.substr(6); // s3 = world
+    
+    cout << "ss2: " << ss2 << endl;
+    cout << "ss3: " << ss3 << endl;
+
+    string ss4("C++ Primer"); // initialize s to "C++ Primer"
+    ss4.append(" 3rd Ed."); // s == "C++ Primer 3rd Ed."
+    // insert at end of string, equivalent to s.append(" 3rd Ed.")
+    ss4.insert(ss4.size(), " 3rd Ed.");
+    cout << "ss4: " << ss4 << endl;
+    
+    ss4.replace(ss4.size() - 7, 7, "4th Ed.");
+    cout << "ss4: " << ss4 << endl;
+
+    /* string find operations */
+    string name("AnnaBelle");
+    string::size_type pos1 = name.find("Anna"); // pos1 == 0
+    cout << "pos1 of Anna in AnnaBelle: " << pos1 << endl;
+    
+    string numerics("0123456789");
+    string str("r2d2");
+    string::size_type pos = str.find_first_of(numerics);
+    cout << "found number at index: " << pos << " element is " << str[pos] << endl;
 }
 
 int main(){

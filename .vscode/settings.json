@@ -39,6 +39,13 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "string_init": "cpp"
+        "string_init": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "stack": "cpp",
+        "queue": "cpp",
+        "iterator": "cpp",
+        "xmemory": "cpp",
+        "xtr1common": "cpp"
     }
 }

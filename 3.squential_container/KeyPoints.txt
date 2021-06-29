@@ -1,12 +1,12 @@
 1.To define a container object, we must include its associated header file:
-#include <vector>
-#include <list>
-#include <deque>
+    #include <vector>
+    #include <list>
+    #include <deque>
 
 2.Each of the containers is a class template, so definition like this:
-vector<string> svec; // empty vector that can hold strings
-list<int> ilist; // empty list that can hold ints
-deque<Sales_item> items; // empty deque that holds Sales_items
+    vector<string> svec; // empty vector that can hold strings
+    list<int> ilist; // empty list that can hold ints
+    deque<Sales_item> items; // empty deque that holds Sales_items
 
 3.Empty container have no elements! we can initialize a container by:
     3.1 initialize a new container with size and value.
@@ -44,21 +44,88 @@ deque<Sales_item> items; // empty deque that holds Sales_items
     In general, unless there is a good reason to prefer another container, vector is usually the right one to use.
 
 8.How Insertion Affects Choice of Container:
-8.1. list
-    A list represents noncontiguous memory and allows for both forward and backward traversal one element at a time. 
-    It is efficient to insert or erase an element at any point.
-    Random access is not supported.
-8.2. vector
-    Support fast random access to any element.
-    Inefficient to insert or erase elements in the middle of vector.
-    Inserting/Removing any element of vector(except front and end), cause every element after it must be moved.  
-    Otherwise, there'd be a hole in the vector.
-8.3. deque: queue implemented by list.
-    A deque offers some properties of both list and vector :
-    Like vector , it is inefficient to insert or erase elements in the middle of the deque .
-    Unlike vector , a deque offers efficient insert and erase at the front as well as at the back.
-    Unlike list and like vector , a deque supports fast random access to any element.
+    8.1. list
+        A list represents noncontiguous memory and allows for both forward and backward traversal one element at a time. 
+        It is efficient to insert or erase an element at any point.
+        Random access is not supported.
+    8.2. vector
+        Support fast random access to any element.
+        Inefficient to insert or erase elements in the middle of vector.
+        Inserting/Removing any element of vector(except front and end), cause every element after it must be moved.  
+        Otherwise, there'd be a hole in the vector.
+    8.3. deque: queue implemented by list.
+        A deque offers some properties of both list and vector :
+        Like vector , it is inefficient to insert or erase elements in the middle of the deque .
+        Unlike vector , a deque offers efficient insert and erase at the front as well as at the back.
+        Unlike list and like vector , a deque supports fast random access to any element.
 
 9.How Access to the Elements Affects Choice of Container
     Random access in a vector can beefficient because each access is to a fixed offset from the beginning of the vector . 
     It is much slower to jump around in a list . the only way to move between the elements of a list is to sequentially follow the pointers.
+
+10. About string
+    10.1 partly copy:
+        string s(cp, n) //Create s as a copy of n characters from array pointed to by cp.
+        string s(s2, pos2, len2) //Create s as a copy of len2 characters from s2 starting at index pos2 
+
+    10.2 string-Only Operations
+        s.substr(pos, n) //Return a string containing n characters from s starting at pos
+        s.substr(pos)   //Return a string containing characters from pos to the end of s 
+        s.replace(pos, len, args)   //replace len of characters from s starting at pos, by characters of args
+
+    10.3 string Search Operations
+        s.find(args)            //Find first occurrence of args in s (exact match find) (upper/lower case matters)
+        s.find_first_of(args)   //Find first occurrence of any character in s, from args (ambiguous find)
+        s.find_last_of(args)    //Find last occurrence ...
+
+    10.4 string compare
+        case-sensitive, dictionary ordering
+        compare two string for equality (== ), inequality (!= ), and the less- or greater- than operations (<, <=, >, >= )
+
+11. sequential container adaptors
+    
+        queue , priority_queue , stack
+
+        #include <stack> // stack adaptor
+        #include <queue> // both queue and priority_queue adaptors
+
+        A container adaptor takes an existing container type and makes it act like a different abstract type. 
+        For example, the stack adaptor takes any of the sequential containers and makes it operate as if it were a stack. 
+        By default both stack and queue are implemented in terms of deque , and a priority_queue is implemented on a vector . 
+
+    11.1 How to initialize adaptors
+        A a(c);     //Create a new adaptor named a with a copy of the container c. if c empty, use the default (deque/vector)
+
+    11.2 What's behind a container adaptor operation:
+    stack is implemented using a deque and uses deque operations to implement the operations of a stack. example:
+    
+        intStack.push(ix++); 
+    
+    this operation executes by calling the push_back operation of the deque object.
+    Although stack is implemented by using a deque , we have no direct access to the deque operations. 
+    We cannot call push_back on a stack ; instead, we must use the stack operation named push.
+
+    11.3 operations for stack, queue, priority_queue:
+        stack: s.empty() s.size() s.push(item) s.top() s.pop()
+        queue & priority_queue common operations: q.empty() q.size() s.push(item) q.pop() 
+        queue(FIFO) only: q.front() q.back()
+        priority_queue only: q.top()
+
+    11.4 What's difference between queue and priority_queue
+        queue: 
+            FIFO queue, Objects entering the queue are placed in the back. The next object retrieved is taken from the front of the queue   
+        priority_queue: 
+            establish a priority among the elements held in the queue. 
+            Rather than place a newly entered item at the back of the queue, the item is placed ahead of all those items with a lower priority. 
+            priority_queue is implemented by heap, default is big heap: this means Descending order queue from front to end.
+
+12 Common Adaptor Operations and Types
+    size_type: Type large enough to hold size of largest object of this type. can seem it as index.
+    value_type: Element type.
+
+13 iterator
+    A type whose operations support navigating among the elements of a container and examining values in the container.
+    iterator is NOT index!
+    We can understand it as a pointer to refer to any elements of container. As a pointer:
+    iterators all support the dereference(* ) and arrow (-> ) operators to examine the value to which the iterator refers. 
+    They also support prefix and postfix increment (++ ) and decrement (-- ) and the equality (== ) and inequality (!= ) operators.

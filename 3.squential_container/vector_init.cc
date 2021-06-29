@@ -15,5 +15,5 @@ int main(){
     /* all class/type can be element of vector */
     vector<string> svec1(10, "0");
     /* an vector in vector: 10 vector * each vector's 10 int elements */
-    vector<vector<int>> ivec5(10, vector<int>(10));
+    vector< vector<int> > ivec5(10, vector<int>(10));
 }

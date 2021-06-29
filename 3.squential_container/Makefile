@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -Werror
+CFLAGS = -g -Wall
 
 src = $(wildcard *.cc)
 target = $(patsubst %.cc, %.exe, ${src})
