@@ -1,0 +1,62 @@
+1. What's associative containers
+    1.1 Key feature of associative containers
+        Associative containers support efficient lookup and retrieval by a key
+        The two primary associative-container types are: map and set
+
+    1.2 What's Difference from squential container
+        Associative container elements are stored and retrieved by a key, 
+        sequential container elements are stored and accessed sequentially by their position within the container.
+
+    1.3 Features of map and set
+            The elements in a map are keyvalue pairs: The key serves as an index into the map , and the value represents 
+        the data that are stored and retrieved. 
+            A set contains ONLY a key and supports efficient queries to whether a given key is present.
+            In general, a set is most useful when we want to store a collection of distinct values efficiently,
+        and a map is most useful when we wish to store (and possibly modify) a value associated with each key.
+
+2. Basic Template of associative containers: pairs
+    2.1 pair is a template type. A pair holds two data members, each has the corresponding named type. example:
+        pair<string, string> a;
+        pair<string, int> b;
+    2.2 Operations on pairs
+        pair<T1, T2> p1; //Create an empty pair with two elements of types T1 and T2 
+        pair<T1, T2> p1(v1, v2); //Create a pair with types T1 and T2 and their value is v1 and v2.
+        make_pair(v1, v2) //Creates a new pair from the values v1 and v2. The type of the pair is inferred from the types of v1 and v2
+        p.first //Returns the first member of pair(T1), in another word, "key" of the pair
+        p.second //Returns the second member of pair(T2), in another word, "value" of the pair
+        p1 == p2 //Two pair s are equal if their first and second members are respectively equal
+
+3. Associative container common concepts
+    3.1 elements are ordered by key: 
+    When we iterate across an associative container, the elements are accessed in key order,
+    irrespective of the order in which the elements were placed in the container
+
+    3.2 Associative containers do not have operations：front, push_front, pop_front, back, push_back, pop_back
+    Associative containers cannot be defined from a size, because no way to know what values to give the keys.
+
+    3.3 Associative containers have operations:
+    constructore
+    iterator for begin, end
+    relational operations (compare in dictionary order)
+
+4. map
+    4.1 Basic concepts
+    A map is a collection of keyvalue pairs. The map type is often referred to as an associative array
+    In another word, map is special array, the elements are pair type.
+    
+    map<key, value> m(k, v);
+    
+    The "key" type of a map needs to support only the < operator. There is no requirement for other relational or equality operators
+    For example: map<string, int> comparision is based on string, the string type provides the "<" operation
+    
+    4.2 Types Defined by the map Class
+    map<K, V>::key_type  //The type of the keys used to index the map .
+    map<K, V>::mapped_type  //The type of the values associated with the keys in the map
+    map<K, V>::value_type   //Type for whole map. first element has type const map<K, V>::key_type, second has type map<K, V>::mapped_type.
+
+    4.2 iterator if map
+    iterator of a map is "pointed to" map<K, V>::value_type. not "key" or "value"!
+    Cannot use iterator to change "key" ! because map<K, V>::value_type have const key_type.
+    Can use iterator to change "value", example: 
+        ++map_iter->second;
+    

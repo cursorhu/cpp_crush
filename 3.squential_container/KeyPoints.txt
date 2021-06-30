@@ -124,8 +124,31 @@
     value_type: Element type.
 
 13 iterator
-    A type whose operations support navigating among the elements of a container and examining values in the container.
-    iterator is NOT index!
-    We can understand it as a pointer to refer to any elements of container. As a pointer:
-    iterators all support the dereference(* ) and arrow (-> ) operators to examine the value to which the iterator refers. 
-    They also support prefix and postfix increment (++ ) and decrement (-- ) and the equality (== ) and inequality (!= ) operators.
+    13.1 what's iterator
+        A type whose operations support navigating among the elements of a container and examining values in the container.
+        iterator is NOT index! We can understand it as a pointer to refer to any elements of container. As a pointer:
+        iterators all support the dereference(* ) and arrow (-> ) operators to examine the value to which the iterator refers. 
+        They also support prefix and postfix increment (++ ) and decrement (-- ) and the equality (== ) and inequality (!= ) operators.
+    
+    13.2 Common Iterator Operations
+        *iter: Return a reference to the element referred to by the iterator iter .
+        iter->mem: fetch the member in the element, Equivalent to (*iter).mem
+        ++iter, iter++, --iter, iter--: Increment/decrease iter to refer to the next element in the container.
+        iter1 == iter2, iter1 != iter2: Compare two iterators for equality. equal if they refer to the same element of the same container
+    
+    13.3 Iterators on vector and deque Support Additional Operations
+        iter + n: iterator move to many elements forward (backward) within the container
+        >, >=, <, <= : One iterator is less than another if it refers to an element whose position in the container 
+                        is ahead of the one referred to by the other iterator
+        iter1 - iter2: how many elements between iter1 and iter2
+
+        * The reason that only vector and deque support the relational operators is that 
+        only vector and deque offer fast, random access to their elements
+
+    NOTE: iterator operation make iterator moves persistantly, it's not temporary calculation!
+
+    13.4 Iterator Safety
+        There is no way to examine an iterator to determine whether it has been invalidated. 
+        There is no test we can perform to detect that it has gone bad
+        Use two iterator to keep track of valid iterator range:
+        An iterator range is denoted by a pair of iterators that refer to first elements and one past the last element in the same container. 
