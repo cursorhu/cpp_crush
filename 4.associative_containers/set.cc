@@ -22,11 +22,10 @@ int main(){
 
     set<int>::iterator iter = iset.find(1);
     cout << "find 1 exist or not：" << *iter << endl;
-
+    
     cout << "count how many 1 exist：" << iset.count(1) << endl;
 
     cout << "erase all key" << endl;
-    
     iset.erase(iset.begin(), iset.end()); //erase all
     cout << "count how many key exist：" << iset.size() << endl;
     //cannot use iterator to access element that erased!

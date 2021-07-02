@@ -86,10 +86,23 @@
         It's useful when we simply want to know whether a value is present
         Same to map, the keys of a set must be unique and may not be changed.
 
-        set supports the same operations as map: 
-            insert, count, find, erase
-            
-        difference to map:
+    5.2 set supports the same operations as map: 
+        insert, count, find, erase
+
+    5.3 difference to map:
         set does not provide a subscript operator and does not define mapped_type. 
         In a set , the value_type is not a pair ; instead it and key_type are the same type
         
+6. multi-map and multi-set
+    The types multiset and a multimap allow multiple instances of a key.
+    In another word, support repetitive key!
+
+    Special operation:
+        lower_bound and upper_bound. apply to all associative containers. They are most often used with multimap s or multisets. 
+        Each of these operations takes a key and returns an iterator.
+        
+        equal_range returns a pair of iterators. The first member is equivalent to m.lower_bound(k) and second is equivalent to m.upper_bound(k) 
+        
+        m.lower_bound(k)
+        m.upper_bound(k)
+        m.equal_range(k)
