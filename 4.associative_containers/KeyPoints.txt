@@ -28,22 +28,23 @@
 
 3. Associative container common concepts
     3.1 elements are ordered by key: 
-    When we iterate across an associative container, the elements are accessed in key order,
-    irrespective of the order in which the elements were placed in the container
+        When we iterate across an associative container, the elements are accessed in key order,
+        irrespective of the order in which the elements were placed in the container
 
     3.2 Associative containers do not have operations：front, push_front, pop_front, back, push_back, pop_back
-    Associative containers cannot be defined from a size, because no way to know what values to give the keys.
+        Associative containers cannot be defined from a size, because no way to know what values to give the keys.
 
     3.3 Associative containers have operations:
-    constructore
-    iterator for begin, end
-    relational operations (compare in dictionary order)
+        constructore
+        iterator for begin, end
+        relational operations (compare in dictionary order)
 
 4. map
     4.1 Basic concepts
     A map is a collection of keyvalue pairs. The map type is often referred to as an associative array
     In another word, map is special array, the elements are pair type.
-    
+    there can be only a single element mapped for a given key!
+
     map<key, value> m(k, v);
     
     The "key" type of a map needs to support only the < operator. There is no requirement for other relational or equality operators
@@ -54,9 +55,41 @@
     map<K, V>::mapped_type  //The type of the values associated with the keys in the map
     map<K, V>::value_type   //Type for whole map. first element has type const map<K, V>::key_type, second has type map<K, V>::mapped_type.
 
-    4.2 iterator if map
+    4.3 iterator of map
     iterator of a map is "pointed to" map<K, V>::value_type. not "key" or "value"!
     Cannot use iterator to change "key" ! because map<K, V>::value_type have const key_type.
     Can use iterator to change "value", example: 
         ++map_iter->second;
     
+    4.4 map's Subscript Operation
+        Be careful to subscripting a map：it can get the value of target key, or create the key that not exist！ 
+        Subscripting a map behaves quite differently from subscripting an array or vector : 
+        Using an index that is not already present adds an element with that index to the map 
+    4.5 map's insert operation
+        map's insert explicitly add new pair to a map, suggested example: 
+            map.insert(make_pair("Anna", 1));
+    4.6 find or count for element
+        m.count(k) //Returns the number of occurrences of k within m
+        m.find(k) //Returns an iterator to the element indexed by k, returns an off-the-end iterator if the key is not present
+    4.7 erase element
+        m.erase(k) //Removes the element with key k from m . Returns size_type indicating the number of elements removed
+        m.erase(p)  //Removes element referred to by the iterator p 
+        m.erase(b, e)   //Removes the elements in the range denoted by the iterator pair b, e
+    
+    4.8 Order of map
+        map is ordered by key with ascending dictionary order
+        use iterator to traverse a map from begin to end, output by map order, not insert order.
+    
+5. set  
+    5.1 Basic concepts
+        set is simply a collection of keys. no value, elements are not pair, but just key.
+        It's useful when we simply want to know whether a value is present
+        Same to map, the keys of a set must be unique and may not be changed.
+
+        set supports the same operations as map: 
+            insert, count, find, erase
+            
+        difference to map:
+        set does not provide a subscript operator and does not define mapped_type. 
+        In a set , the value_type is not a pair ; instead it and key_type are the same type
+        
