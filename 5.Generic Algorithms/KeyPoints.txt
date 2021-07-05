@@ -1,0 +1,24 @@
+1.What Generic Algorithms do?
+    Containers only define a small set of operations. Generic Algorithms library provides a set of algorithms
+    These algorithms are "generic:" They operate on different types of containers(vector, list, ...) and on elements of various types(int, string, class...)
+    Example:
+        sort a sequential container, find a particular element and so on
+    NOTE: Generic Algorithms is not rely on container, instead it's Generic. We never see Generic Algorithms is called like on an object's method.
+
+2.Sorting
+    sort is implemented by fast-sort, so it's O(n) is not stable
+        sort(begin, end, callback(a, b)) // sort the container's elements whose range from begin to end, by rule defined in callback
+    stable_sort is merge-sort, it's O(n) is stable, nlogn
+        stable_sort(begin, end, callback(a, b))
+    unique must be used base on sorted container, and erase is ofter used as pair operation. refer to sort.cc
+
+3.Special Iterators
+    Insert Iterators: 
+        back_inserter, which creates an iterator that uses push_back
+        front_inserter, which uses push_front 
+        inserter, which uses insert
+    iostream Iterators:
+        istream_iterator reads an input stream, 
+        ostream_iterator writes an output stream
+    Reverse Iterators
+        reverse iterator is to move the iterator backward through the sequence
