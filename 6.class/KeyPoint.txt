@@ -1,0 +1,28 @@
+1. Basic Concepts
+    Classes are the most important feature in C++. 
+    Early versions of the language were named "C with Classes," emphasizing the central role of the class facility.
+
+2. First look at class
+    we know public, private for member function and member data
+    and know how to define member function out of class. member function and member data have same class object scope.
+    key points:
+        * constructor initializer list
+        * how to create an class object
+        * object's this pointer and what it used for.
+    refer to 6.1 screen
+
+3. Rule of Three
+    if a class needs a destructor, it will also need the assignment operator and a copy constructor.
+    This rule is often referred to as the Rule of Three
+    key points:
+        * copy constructor
+        * assignment operator constructor
+        * destructor
+    refer to 6.2 Student
+
+4. Class with Pointer
+    Be carefule when class have pointer member. 
+    a buffer is usually created in constructor for the pointer member, 
+    and make sure the buffer is freed in destructor !
+    make sure deep-copy (copy the buffer but not just pointer itself) in copy-constructor !
+    A smart_ptr class can be used to count how may object share a pointer
