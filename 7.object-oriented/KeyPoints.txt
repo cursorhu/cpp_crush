@@ -1,0 +1,90 @@
+1.What's OOP 
+    The key idea behind OOP is polymorphism. C++ provide below mechanism to implement it:
+    * Inheritance
+        Inheritance sharing what is common and specializing only that which is inherently different.
+        Members defined by the base class are inherited by its derived classes.
+        derived class can do below operations based on base class:
+            a) use the member function/data of base class, even without definition them.
+            b) define its own member function/data, which base class not have.
+            c) redefine (overload) member functions of base class.
+         virtual:
+            Functions defined as virtual are ones that the base expects its derived classes to redefine.
+            Functions that the base class intends its children to inherit are not defined as virtual.
+            we can understand virtual function as a protocal, that base class only define the format, and derived class implement it (not inherit it).
+        
+    * Dynamic Binding
+        Think about a case: the base class have a virtual member function that receive class object and call it's virtual member function:
+            Base_func(class_obj){ class_obj.member_func }
+        Inheritance as we known, the derived class object implements the virtual member_func. 
+        so when we pass the derived class object to this function, it calls the derived class's member_func.
+        This is Dynamic Binding example: we can pass the derived class object to base class member function. 
+        If we pass derived class object A, the base member function calls A.member_func
+        If we pass derived class object B, the base member function calls B.member_func
+        Dynamic Binding rely on virtual function mechanism, the call to member_func will be resolved at run time.
+        During compile stage, base class's virtual function is only a declaration but no definition.
+        At run time, if class object A is created, and passed to the member_func, then the definition of virtual function is bind to base class object.
+        So we call it Dynamic Binding !
+        
+        dynamic binding trigger condition: ONLY happen when a virtual function is called through a reference/pointer of a base class. 
+
+        The fact that the static and dynamic types of references and pointers can differ,
+        is the cornerstone of how C++ supports polymorphism.
+
+2.Key Concept: Class Design and Protected Members
+        *In the absence of inheritance, a class has two kinds of users: members of the class itself and the users of that class. 
+        This separation between kinds of users is reflected in the division of the class into private and public access levels. 
+        Users may access only the public interface; class members and friends may access both the public and private members.
+        
+        *Under inheritance, there is now a third kind of user of a class: derived class
+        The data and function members in a protected section of a class remain inaccessible to the general program, 
+        yet are accessible to the derived class. Anything placed within a private section of the base class is accessible 
+        only to the class itself and its friends. The private members are not accessible to the derived classes.
+        
+        *A class designed to be inherited from must decide which parts of the implementation to declare as protected and 
+        which should be private. A member should be made private if we wish to prevent subsequently derived classes from 
+        having access to that member. A member should be made protected if it provides an operation or data that a derived class 
+        will need to use in its implementation. In other words, the interface to the derived type is the combination of both the 
+        protected and public members.
+
+3.Derived class
+        3.1 definition
+            class <classname>: <access-label> <base-class>
+            <classname> is derived class, <access-label> is one of public, protected, or private, and <base-class> is a defined class
+            When we want to inherit the interface of a base class, then the <access-label> should be 'public'
+
+        3.2 virtual function
+            virtual function in the derived class must exactly match the way the function is defined in the base class.
+            Except one case: return a reference (or pointer) to a a class object
+            example: base class's virtual function return a reference of itself: base_class &
+                     derived class can return either base_class & or derived_class &. 
+            When a derived class redefines a virtual, it may use the virtual keyword, but it is not required to do so
+
+        3.3 a derived class object contains all data members of base class object. It's a "extention" of base class
+            Each derived object has a base-class part, derived classes may access the public and protected members of 
+            its base class as if those members were members of the derived class itself. 
+            note that the private member of base class is non-accessible for derived object.
+
+        3.4 a derived class can be base class of another derived class
+            class Base { /* ... */ };
+            class D1: public Base { /* ... */ };
+            class D2: public D1 { /* ... */ };
+        
+        3.5 forward declaration of derived class: 
+                // must do declarations of both derived and base class
+                class derived_class;
+                class base_class;
+            below is error for forward declaration:
+                class <classname>: <access-label> <base-class>;
+
+4.Inside the polymorphism: the virtual function table
+        what exactly virtual function in base class and derived class do to implement Dynamic Binding, to make C++ support polymorphism?
+        a base class with virtual function, have an invisible pointer data member, 
+        the invisible pointer points to a virtual function list which maintain all virtual function entry address of the base class.
+        a derived class also have such an invisible pointer data member, but it point to the virtual function list of derived class.
+        the virtual function list is generated by compile.
+        so, if we call virtual function from a base class object at runtime, two things happen:
+            a) we get the invisible pointer's virtual function list, which contains all virtual function entry address of the base class.
+            b) we search the function entry in the virtual function list, then we go to the function entry to execute it.
+        if we call virtual function from a derived class object at runtime, two things happen:
+            a) we get the invisible pointer's virtual function list, which contains all virtual function entry address of the derived class.
+            b) we search the function entry in the virtual function list, then we go to the function entry to execute it.
