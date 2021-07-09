@@ -69,7 +69,7 @@ inline String::~String()
 
 inline String& String::operator=(const String& str)
 {
-	if (this == &str) //check self assignment.
+	if (this == &str) //check self assignment. operator & at left is "get address", not reference.
 		return *this;
 	
     std::cout << "operator=" << std::endl; //for debug

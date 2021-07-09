@@ -88,3 +88,60 @@
         if we call virtual function from a derived class object at runtime, two things happen:
             a) we get the invisible pointer's virtual function list, which contains all virtual function entry address of the derived class.
             b) we search the function entry in the virtual function list, then we go to the function entry to execute it.
+        In a word, which class object that calls virtual function, decide which virtual function that it really calls.
+
+5.Access control for Inheritance
+        A derived class may further restrict but may not loosen the access to the members that it inherits:
+        a)In public inheritance, the members of the base retain their access levels: 
+          The public members of the base are public members of the derived and the protected members of the base are protected in the derived.
+        b)In public inheritance, the members of the base retain their access levels: 
+          The public members of the base are public members of the derived and the protected members of the base are protected in the derived.
+        c)In private inheritance, all the members of the base class are private in the derived class.
+
+        class inheritance is default private if not use <access-label>:
+        class Base { /* ... */ };
+        class D : Base { /* ... */ };    // private inheritance by default
+
+6. Key Concept: Inheritance versus Composition
+    Is A: When we define one class as publicly inherited from another, the derived class should reflect a so-called "Is A" relationship to the base class.
+    Has A: "Has A" relationship imply membership. For example, bookstore classes "has a" a price and an ISBN.  
+
+7. Inheritance and Friendship
+    Friends may access the class' private and protected data
+    Friendship is not inherited. Friends of the base have no special access to members of its derived classes.
+    we can understand it like this: a friend of father, is not a friend of son. 
+    father's friend can share the private things of father, but cannot share son's private things
+    
+8. Inheritance and static
+    static member is default global accessible. we can understand that it's not belongs to a class even if defined in it.
+    If a base class defines a static member, there is only one such member defined for the entire hierarchy
+
+9. Inheritance Conversions
+    8.1 Derived-to-Base Conversions
+        A derived object "is a" base class object, because it contain all members of base class object.
+        If we have an object of a derived type, we can use its address to assign or initialize a pointer to the base type.
+        Similarly, we can use a reference or object of the derived type to initialize a reference to the base type.
+
+        a) if pass an object of derived type to a function expecting a reference to base, doesn't change the derived-type object. It remains a derived-type object.
+        b) if pass an object of derived type to a function expecting a base-type object, the base-class portion of that derived object is copied into the input parameter 
+
+        In another word, in cases that request referrence or pointer of base object,
+        we can always use referrence or pointer of a derived object, the derived object keeps what it is, without copy operation
+        But if we use a derived object but not referrence/pointer, it's "copied and transfered" to a base object.
+
+10. Inheritance & Copy Control Constructors
+        Constructors and the copy-control members(Rule of three: copy constructor, assignment operator, destructor) are not inherited !
+        Derived constructors are affected by the fact that they inherit from another class: 
+            Each derived constructor initializes its base class in addition to initializing its own data members.
+        A class may initialize only its own immediate base class. An immediate base class is the class named in the derivation list.
+        If class C is derived from class B, which is derived from class A, then B is the immediate base of C. 
+        the constructors for C may not initialize the A part directly.
+
+        Defining a Derived Copy Constructor:
+            a) If a derived class explicitly defines its own copy constructor or assignment operator, that definition completely overrides 
+            the defaults. The copy constructor and assignment operator for inherited classes are responsible for copying or assigning
+            their base-class components as well as the members in the class itself.
+            b) If a derived class defines its own copy constructor, that copy constructor usually should explicitly use the base-class 
+            copy constructor to initialize the base part of the object.
+
+
