@@ -60,5 +60,6 @@
         "xlocnum": "cpp",
         "xstddef": "cpp",
         "set": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }

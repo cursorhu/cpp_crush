@@ -144,4 +144,32 @@
             b) If a derived class defines its own copy constructor, that copy constructor usually should explicitly use the base-class 
             copy constructor to initialize the base part of the object.
 
+11. Class Scope under Inheritance
+        Why derived class object can use base class's function memeber in a public inherit ?
+        * Each class maintains its own scope
+        * Under inheritance, the scope of the derived class is nested within the scope of its base classes. If a name is unresolved 
+        within the scope of the derived class, the enclosing base-class scope(s) are searched for a definition of that name.
+        * In another word, the derived object "include" the base object, this is the why.
+        * Exampe: 
+        base class have function member: book(); 
+        derived class call the functioin by: 
+            Bulk_item bulk;
+            bulk.book();
+        Compiler do below to "bind" function member with derived object:
+        a)bulk is an object of the Bulk_item class. The Bulk_item class is searched for book. That name is not found.
+        b)Because Bulk_item is derived from Item_Base, the Item_Base class is searched next. The name book is found 
+        in the Item_base class. The reference is resolved successfully.
 
+12. Key Concept: Name Lookup and Inheritance 
+        Understanding how function calls are resolved is crucial to understanding inheritance hierarchies in C++. 
+        The following four steps are followed:
+        1.  Start by determining the static type of the object, reference, or pointer through which the function is called.
+        2.  Look for the function in that class. If it is not found, look in the immediate base class and continue up the chain of 
+        classes until either the function is found or the last class is searched. If the name is not found in the class or 
+        its enclosing base classes, then the call is in error.
+        3.  Once the name is found, do normal type-checking (Section 7.1.2, p. 229) to see if this call is legal given the 
+        definition that was found.
+        4.  Assuming the call is legal, the compiler generates code. If the function is virtual and the call is through a reference 
+        or pointer, then the compiler generates code to determine which version to run based on the dynamic type of the object. 
+        Otherwise, the compiler generates code to call the function directly.
+ 
