@@ -1,3 +1,5 @@
+//friends & inherit
+
 //base class and his son
 class Base {
     friend class Frnd; //Frnd can access all member(protected and private) of Base

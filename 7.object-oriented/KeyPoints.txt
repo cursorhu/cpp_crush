@@ -13,22 +13,21 @@
             we can understand virtual function as a protocal, that base class only define the format, and derived class implement it (not inherit it).
         
     * Dynamic Binding
-        Think about a case: the base class have a virtual member function that receive class object and call it's virtual member function:
-            Base_func(class_obj){ class_obj.member_func }
+        Think about a case: the base class have a virtual member function that receive reference of class object and call it's virtual member function:
+            Base_func(ref_class_obj){ ref_class_obj.member_func }
         Inheritance as we known, the derived class object implements the virtual member_func. 
-        so when we pass the derived class object to this function, it calls the derived class's member_func.
-        This is Dynamic Binding example: we can pass the derived class object to base class member function. 
-        If we pass derived class object A, the base member function calls A.member_func
-        If we pass derived class object B, the base member function calls B.member_func
+        when we pass reference of the derived class object to this function, it calls the derived class's member_func.
+        If we pass reference of derived class object A, the base member function calls A.member_func
+        If we pass reference of derived class object B, the base member function calls B.member_func
         Dynamic Binding rely on virtual function mechanism, the call to member_func will be resolved at run time.
         During compile stage, base class's virtual function is only a declaration but no definition.
-        At run time, if class object A is created, and passed to the member_func, then the definition of virtual function is bind to base class object.
-        So we call it Dynamic Binding !
         
-        dynamic binding trigger condition: ONLY happen when a virtual function is called through a reference/pointer of a base class. 
+        dynamic binding trigger condition: 
+        ONLY when a virtual function is called through a reference or pointer of a base class. 
+        
+        Dynamic Binding is core implementation of C++ OOP.
+        Note that only using pointers or references of a object can support Dynamic Binding, not objects !
 
-        The fact that the static and dynamic types of references and pointers can differ,
-        is the cornerstone of how C++ supports polymorphism.
 
 2.Key Concept: Class Design and Protected Members
         *In the absence of inheritance, a class has two kinds of users: members of the class itself and the users of that class. 
@@ -173,3 +172,10 @@
         or pointer, then the compiler generates code to determine which version to run based on the dynamic type of the object. 
         Otherwise, the compiler generates code to call the function directly.
  
+13. Pure virtual function & abstract class
+        refer to comment in 7.2 / pure-virtual.cc
+
+14. Handle class   
+        The handle class stores and manages a pointer to the base class. 
+        The type of the object to which that pointer points will vary; it can point at either a base or a derived-type object.
+        refer to comment in 7.3 handle_class

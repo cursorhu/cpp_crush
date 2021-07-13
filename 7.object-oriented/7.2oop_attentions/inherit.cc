@@ -1,3 +1,5 @@
+//public/private/protected inherit
+
 class Base {
     public:
         int basemem() { return i; }  // public member

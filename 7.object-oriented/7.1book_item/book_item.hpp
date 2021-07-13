@@ -31,10 +31,11 @@ public:
     // this function returns total sales price for a specified number of items
     virtual double net_price(std::size_t n) const { return n * price; } //virtual function in base class.
     //As the root class of an inheritance hierarchy, we generally define a virtual destructor to overload default destructor.
-    //why base class desctructor must defined as virtual:
-    //desctructor must support dynamic binding, defined as virtual is essential for it. 
-    //desctructor is designed to called only once. we cannot call a base class desctuctor in derived class desctuctor.
-    //To ensure that the proper destructor is run, dynamic binding decide which class desctuctor to call depending on object.
+    //why base class destructor must defined as virtual:
+    //destructor must support dynamic binding, defined as virtual is essential for it. 
+    //destructor is designed to called only once. we cannot call a base class destructor in derived class destructor.
+    //To ensure that the proper destructor is run, define base class dynamic destructor as virtual, to support dynamic binding,
+    //so that which class destructor to call depending on object. a deriverd object will call destructor of derived class.
     //Why the constructor, copy-constructor and operator cannot defined as virtual:
     //Constructors cannot be defined as virtual. 
     //Constructors are run before the object is fully constructed. virtual dynamic binding rely on complete object.
@@ -104,9 +105,9 @@ public:
         return *this; //do not forget to return class object!
     }
 
-    // Derived class's desctructor have some relationship to base class desctructor ? check the cout print.
-    // Reverse to the constructor. derived class's desctructor will be firstly called to destroy the derived part members.
-    // then base class desctructor is called to destroy the base class part members.
+    // Derived class's destructor have some relationship to base class destructor ? check the cout print.
+    // Reverse to the constructor. derived class's destructor will be firstly called to destroy the derived part members.
+    // then base class destructor is called to destroy the base class part members.
     // The derived destructor no need to explictly call base class's destructor, which is different to 
     // copy constructor and assignment operator, compiler will automatically call the base class destructor.
 

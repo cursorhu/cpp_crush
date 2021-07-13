@@ -1,3 +1,7 @@
+//clear two cases:
+// a) derived class overload base class function, 
+// b) derived class implement the base class virtual function.
+
 #include <iostream>
 
 class Base {

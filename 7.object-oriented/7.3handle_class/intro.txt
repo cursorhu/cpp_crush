@@ -1,0 +1,39 @@
+1. object-oriented programming in C++ : we cannot use objects to support it. Instead, we must use pointers and references
+
+void get_prices(Item_base object,
+                     const Item_base *pointer,
+                     const Item_base &reference)
+     {
+         // which version of net_price is called is determined at run time
+         cout << pointer->net_price(1) << endl;
+         cout << reference.net_price(1) << endl;
+
+         // always invokes Item_base::net_price
+         cout << object.net_price(1) << endl;
+     }
+
+2. Unfortunately, using pointers or references puts a burden on the users of our classes
+example: class object as element of container
+
+     multiset<Item_base> basket;
+     Item_base base;
+     Bulk_item bulk;
+     basket.insert(base);  // ok: add copy of base to basket
+     basket.insert(bulk);  // ok: but bulk sliced down to its base part
+    
+derived objects are "sliced down" when assigned to a base object
+
+We cannot fix this problem by defining the container to hold derived objects.
+because there is no conversion from base to derived type
+The only viable alternative would be to use the container to hold pointers to our objects
+
+3. So we introduce handle class, which contains pointers for class objects.
+Handles that cover an inheritance hierarchy have two important design considerations:
+    a) we must decide what to do about copy control. it should behave like either a smart pointer or a value 
+    b) The handle class determines whether the handle interface will hide the inheritance hierarchy or expose it
+
+In the example code, we'll define a pointerlike handle class, named Sales_item, to represent our Item_base hierarchy. 
+Users of Sales_item will use it as if it were a pointer: Users will bind a Sales_item to an object of type Item_base 
+and will then use the * and -> operations to execute Item_base operations.
+users won't have to manage the object to which the handle points; 
+the Sales_item class will do that part of the job. When users call a function through a Sales_item, they'll get polymorphic behavior.
