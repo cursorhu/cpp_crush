@@ -1,0 +1,109 @@
+1.Generic programming
+        Generic programming involves writing code in a way that is independent of any particular type. 
+        Templates are the foundation of generic programming. A template is a blueprint or formula for creating a class or a function
+        Generic programming support polymorphism. A single class or function can be used to manipulate objects of a variety of types.
+
+2.Templates
+        2.1 Basic concepts
+        Essentially, template is a more powerful "macro" for function and class.
+        During template function/class compiling, the template type "T" is replaced by actual argument type based on context.
+        Once the compiler determines the actual template argument, it instantiates an instance of the function template.
+        In another word, it generates a version of the function using those arguments in place of the corresponding template parameters
+
+        format of template declaration/definition
+        function template:
+            template <typename T> 
+            T calc(const T &a, const T &b){
+                //...
+            }
+        
+        class template:
+            template <typename T> 
+            class Calc{
+                //...
+            }
+
+        * T can be multiple: template <typename A, typename B, ...>
+        * keyword "class" is equal to keyword "typename" for template declaration.
+        we suggest use "typename", because "class" is ambigous for object-class or template type.
+
+        Rule of using templates for generic programming
+        * keep the least requirements for the argument types. 
+        * The parameters to the template are const references.
+        * The tests in the body use only < comparisons
+
+        2.2 Templates Instantiation:
+        A template is a blueprint; it is not itself a class or a function. 
+        The compiler uses the template to generate type-specific versions of the specified class or function. 
+        The process of generatng a type-specific instance of a template is known as instantiation
+        We can understand that Templates Instantiation in C++ is just like macro replacing in C.
+
+        Example: 
+            template <typename Type> 
+            class Queue {
+                public:
+                    Queue ();                // default constructor
+                    Type &front ();          // return element from head of Queue
+                    void push (const Type &); // add element to back of Queue
+                    //...
+            };
+
+        when use the template like this (must explictly declare type):
+            Queue<int> qi;
+        
+        compiler will create a class like this:
+            class Queue<int> {
+                public:
+                    Queue ();               
+                    int &front ();          
+                    void push (const int &); 
+                    //...
+            };
+
+        when use the template like:
+            Queue<string> qi;
+        
+        compiler will create a class like this:
+            class Queue<string> {
+                public:
+                    Queue ();               
+                    string &front ();          
+                    void push (const string &); 
+                    //...
+            };
+
+        the Queue<int> and Queue<string> is class type created by template Queue. we call it template instantiation
+        Each instantiation of a class template constitutes an independent class type. 
+        The Queue instantiation for the type int has no relationship to nor any special access to the members of any other Queue type.
+
+        Note: Template_Class<Type> is the template instantiation's type, we can use it as a normal class type.
+        Template_Class itself is not a actual class type ! it's only a class blueprint that need compiler to pre-process
+        
+        function template is the same as above, however the compiler will infer function template arguments 
+        so that we do no explictly declare the type like class template.
+
+        2.3 template vs function argument type conversion
+        a function template to calculate sum:
+            template<typename T>
+            T sum(T a, T b) { return a + b; }
+        function parameter auto conversion is not allowed for template function:
+            int i; short s;
+            sum(s, i); // error: there are two types: short and int, but template function only have one type.
+        
+        Solution:
+            a) declare two types in template:
+                template<typename T1, typename T2,>
+                T2 sum(T1 a, T2 b) { return (T2)a + b; }
+            
+            b) conversion by static_cast
+                int i; short s;
+                sum(static_cast<int>(s), i); // ok: instantiates int sum(int, int)
+
+        2.4 Template Compilation Models
+            abandoned, refer to C++ 11.
+
+        2.5 Declare template class's member in external source file
+        Just remember, the template <class T> must put in front first.
+            template <class T> ret-type TemplateClass<T>::member-name
+            template <class T> inline ret-type TemplateClass<T>::member-name
+            template <class T> const ret-type TemplateClass<T>::member-name
