@@ -1,0 +1,13 @@
+Why nullptr?
+
+nullptr 出现的目的是区分 NULL和空指针：
+传统 C++ 中 NULL、0 、空指针 是同一种东西
+现代 C++ 不允许直接将 void * 隐式转换到其他类型, 所以只好将NULL 定义为 0。
+
+引起如下问题：
+void foo(char*);
+void foo(int);
+如果调用foo(NULL); 这个语句将会去调用 foo(int)
+
+nullptr 关键字，专门用来区分空指针和0值（NULL）。nullptr 的类型为 nullptr_t，能够隐式的转换为任何指针或成员指针的类型.
+nullptr相当于实现 C++ 的 void * 隐式转换指针。
