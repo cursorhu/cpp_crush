@@ -1,0 +1,35 @@
+在传统 C 和 C++中，参数的类型都必须明确定义
+C++11 引入了 auto 和 decltype 这两个关键字实现了类型推导，让编译器来处理变量的类型
+
+1. auto
+使用 auto 进行类型推导的一个最为常见的例子就是迭代器
+C++ 98 迭代器定义:
+    for(vector<int>::const_iterator it = vec.cbegin(); itr != vec.cend();++it)
+C++11 迭代器定义:
+    for(auto it = magicFoo.vec.begin(); it != magicFoo.vec.end();++it)
+
+auto也可以定义普通变量
+    auto i =5;              // i 被推导为 int
+    auto arr =new auto(10);  // arr 被推导为 int *
+
+注意：auto 不能用于函数传参的自动推导
+    int add(auto x,auto y); // 错误，如果有函数重载，编译器没法处理
+
+ C++14 开始是可以直接让auto支持普通函数的返回值推导：
+    template<typename T,typename U>
+    auto add3(T x, U y){
+        return x + y;
+    }
+
+2.decltype
+decltype 相当于 auto 的逆向，auto 是用户不需要知道变量类型，自动推导；decltype 是获取一个未知类型（auto）变量的具体类型
+示例：判断变量是否是某种类型
+    //std::is_same<T, U> 用于判断 T 和 U 这两个类型是否相等
+    if(std::is_same<decltype(x),int>::value)
+        std::cout <<"type x == int"<< std::endl;
+    if(std::is_same<decltype(x),float>::value)
+        std::cout <<"type x == float"<< std::endl;
+    if(std::is_same<decltype(x),decltype(z)>::value)
+        std::cout <<"type z == type x"<< std::endl;
+
+decltype 和 golang 利用反射获取变量类型比较相似

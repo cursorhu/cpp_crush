@@ -8,3 +8,15 @@ C++11 提供了 constexpr 让用户显式的声明函数或对象构造函数在
 例子代码中，char arr_4[len_2] 可能比较令人困惑，因为 len_2 已经被定义为了常量。
 为什么 char arr_4[len_2] 仍然是非法的呢？这是因为 C++ 标准中数组的长度必须是一个常量表达式，
 len_2 是 const 常数，而不是一个常量表达式，因此它是一个非法的行为（即便这种行为在大部分编译器中都支持）
+
+ifconstexpr：
+C++ 17 的 ifconstexpr 允许在编译器根据constexpr，选择不同代码块参加编译
+
+类似C 的:
+    #ifdef expression 
+        ...
+    #elif 
+        ...
+    #endif
+
+ifconstexpr 近似实现 #ifdef expression 功能 

@@ -1,0 +1,31 @@
+ 1.嵌套模板的 >> 符号
+ C++ 98 的编译器中，>> 一律被当做右移运算符来进行处理，一个二维vector要加空格
+    std::vector< std::vector<int> > matrix;
+ C++11 开始，嵌套模板的连续右尖括号变得合法
+
+2.模板的typedef
+在传统 C++ 中，typedef 可以为类型定义一个新的名称，但是却没有办法为模板定义一个新的名称, 因为模板不是类型
+C++11 使用 using 支持对传统 typedef 相同的功效, 支持对模板命名别名
+
+    template<typename T>
+    using DarkMagic = MagicType<std::vector<T>, std::string>;
+    int main(){
+        DarkMagic<bool> avatarkill;
+    }
+
+3.变长参数模板
+传统C++ 只能接受一组固定数量的模板参数
+C++11 允许任意个数、任意类别的模板参数
+
+    template<typename...Ts> classMagic;
+    classMagic<int, std::vector<int>, std::map<std::string, std::vector<int>>> darkMagic;
+
+类似C 的 printf 接受变长参数，然后用 va_list 解析：
+C++ 使用递归解析变长参数列表：
+C++ 17:
+    template<typename T0, typename... T>
+    void printf(T0 t0, T... t){
+        std::cout << t0 << std::endl;
+        ifconstexpr(sizeof...(t) > 0) 
+            printf(t...); //递归
+    }
