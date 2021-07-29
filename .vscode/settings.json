@@ -59,7 +59,9 @@
         "xlocinfo": "cpp",
         "xlocnum": "cpp",
         "xstddef": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "functional": "cpp",
+        "xhash": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
