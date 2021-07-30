@@ -1,0 +1,64 @@
+
+1. C++11 多线程
+C++11 新标准中引入了四个头文件来支持多线程编程: <atomic> ,<thread>,<mutex>,<condition_variable>和<future>。
+
+<atomic>：该头文主要声明了两个类, std::atomic 和 std::atomic_flag，另外还声明了一套 C 风格的原子类型和与 C 兼容的原子操作的函数。
+<thread>：该头文件主要声明了 std::thread 类，另外 std::this_thread 命名空间也在该头文件中。
+<mutex>：该头文件主要声明了与互斥量(mutex)相关的类，包括 std::mutex 系列类，std::lock_guard, std::unique_lock, 以及其他的类型和函数。
+<condition_variable>：该头文件主要声明了与条件变量相关的类，包括 std::condition_variable 和 std::condition_variable_any。
+<future>：该头文件主要声明了 std::promise, std::package_task 两个 Provider 类，以及 std::future 和 std::shared_future 两个 Future 类，另外还有一些与之相关的类型和函数，std::async() 函数就声明在此头文件中
+
+2. thread
+std::thread 可创建一个线程实例，支持 join, detach 等同步操作
+
+3. 锁: lock_guard 和 unique_lock
+(1) lock_guard：RAII 风格，内部封装了 lock() 和 unlock()，在工作线程的堆栈退出时，自动调用 unlock()
+
+(2) unique_lock：lock_guard RAII风格的基础上，更细粒度的锁
+使用了 std::lock_guard，就不能显式调用 lock 和 unlock
+如果一个线程有多个临界区，也只能在首个临界区加锁，线程函数结束时自动解锁，导致锁粒度比较大
+
+而使用了 std::unique_lock，还能显式调用 lock 和 unlock， 
+如果一个线程有多个临界区，在首个临界区 unique_lock 加锁，在临界区结束手动 unlock, 在下一个临界区开始时手动 lock，最后线程函数结束时自动解锁
+unique_lock可以缩小锁的粒度，提供更高的并发度
+
+如果用到条件变量 std::condition_variable::wait，则必须使用 std::unique_lock
+
+4. 条件变量: condition_variable
+条件变量 std::condition_variable 是为了解决死锁而生。 
+比如，线程可能需要等待某个条件为真才能继续执行， 而一个忙等待循环中可能会导致所有其他线程都无法进入临界区使得条件为真时，就会发生死锁。 
+condition_variable 实例被创建出现主要就是用于唤醒等待线程从而避免死锁。 
+std::condition_variable 的 notify_one() 用于唤醒一个线程； 
+notify_all() 则是通知所有线程。
+参考示例代码的生产者和消费者模型
+
+5. 异步: future, async, promise
+两个线程间传递数据通常采用异步：
+异步编程主要是针对任务或线程的执行顺序，也即一个任务不需要阻塞等待上一个任务执行完成后再开始执行
+    同步：发出一个调用时，在没有得到结果之前，该调用就不返回
+    异步：调用在发出之后，这个调用就直接返回了
+
+异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态、通知来通知调用者，或通过回调函数处理这个调用
+逻辑上像是轮询与中断
+
+C++ 98 下的异步做法： 创建一个线程 A，在线程 A 里启动任务 B，当 B 准备完毕后发送一个事件，并将结果保存在全局变量中。 
+而主函数线程 A 正在做其他的事情，当需要 B 的结果的时候，调用一个线程等待函数来获得执行的结果
+
+C++11 的 std::future 可以直接保存和传递异步任务的结果，不使用全局变量   
+关于 async, promise, 参考：
+https://cloud.tencent.com/developer/article/1584075
+
+6. 原子操作: atomic
+原子操作指 CPU 指令级的操作，它更细粒度的处理多线程下共享变量的读写这一问题
+将一个变量定义为原子变量后，其读写操作(例如 ++，+1)从一组指令，变成到不可被抢占的单个CPU指令
+
+并非所有的类型都能提供原子操作，因为原子操作的可行性取决于 CPU 的架构以及所实例化的类型结构是否满足该架构对内存对齐条件的要求
+通过 std::atomic<T>::is_lock_free 检查变量类型是否支持原子操作
+
+7.C++ 内存一致性模型
+在C++11 标准中，一个重大的更新就是引入了C++多线程内存模型
+简单理解，内存模型是程序员、编译器，CPU 之间的协议，遵守协议后大家就各自做优化，从而尽可能提高程序的性能
+参考以下内容：
+https://www.bookstack.cn/read/modern-cpp-tutorial-zh/07-thread.md
+https://zhuanlan.zhihu.com/p/91406250
+https://blog.csdn.net/weixin_36145588/article/details/78873917

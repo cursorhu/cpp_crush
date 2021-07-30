@@ -61,7 +61,14 @@
         "xstddef": "cpp",
         "set": "cpp",
         "functional": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "thread": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "future": "cpp",
+        "condition_variable": "cpp",
+        "resumable": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
