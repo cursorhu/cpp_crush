@@ -12,8 +12,7 @@ class WristClock: public TimeKeeper {...}; //腕表
 ...
 ```
 
-使用工厂模式，父类TimeKeeper还定义了工厂函数 virtual getTimeKeeper()，子类实现 getTimeKeeper() 返回子类对象
-通过以下调用，返回一个**指向derived class对象的base class指针**:
+使用工厂模式，通过以下调用，返回一个**指向derived class对象的base class指针**:
 ```
 TimeKeeper* ptk = getTimeKeeper(); //创建基类对象的heap空间，返回指针
 ...
